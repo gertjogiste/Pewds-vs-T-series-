@@ -81,7 +81,7 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 0
             self.rect.y = height - self.rect.height
 
-    def jump(self, SCREEN_HEIGHT):
+    def jump(self, height):
         """ Called when user hits 'jump' button. """
 
         # move down a bit and see if there is a platform below us.
@@ -92,7 +92,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y -= 2
 
         # If it is ok to jump, set our speed upwards
-        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
+        if len(platform_hit_list) > 0 or self.rect.bottom >= height:
             self.change_y = -10
 
     # Player-controlled movement:
