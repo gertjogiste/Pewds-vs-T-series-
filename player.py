@@ -11,26 +11,27 @@ class Player:
         self.size = size
         self.jumpheight = -jumpheight
         self.onGround = False
+        self.tilesize = size
 
-        self.tulpP = int((self.x + 32) / 64)
-        self.ridaA = int((self.y + 32) / 64)
-        self.tulpV = int((self.x - 32) / 64)
-        self.ridaY = int((self.y - 32) / 64)
+        self.tulpP = int((self.x + (self.tilesize/2)) / self.tilesize)
+        self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
+        self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
+        self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
     def update(self, mapnr, Maps):
         key = pygame.key.get_pressed()
         if key[pygame.K_RIGHT]:
-            tulpP = int((self.x + self.speedx + 31) / 64)
-            ridaA = int((self.y + 31) / 64)
-            ridaY = int((self.y - 32) / 64)
+            tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
+            ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
+            ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
             if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
                 self.x += self.speedx
 
         elif key[pygame.K_LEFT]:
-            tulpV = int((self.x - self.speedx - 32) / 64)
-            ridaA = int((self.y + 31) / 64)
-            ridaY = int((self.y - 32) / 64)
+            tulpV = int((self.x - self.speedx - (self.tilesize/2)) / self.tilesize)
+            ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
+            ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
             if Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
                 self.x -= self.speedx
@@ -47,10 +48,10 @@ class Player:
             self.onGround = False
 
     def gravity(self, mapnr, Maps):
-        self.tulpP = int((self.x + 31) / 64)
-        self.tulpV = int((self.x - 32) / 64)
-        self.ridaA = int((self.y + 32) / 64)
-        self.ridaY = int((self.y - 32) / 64)
+        self.tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
+        self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
+        self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
+        self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
         if Maps.maps[mapnr][self.ridaA][self.tulpV] == 1 or Maps.maps[mapnr][self.ridaA][self.tulpP] == 1:
             self.onGround = True
@@ -59,7 +60,7 @@ class Player:
             self.y += self.speedy
             self.onGround = False
         if self.onGround:
-            self.y = self.ridaA*64 - 32
+            self.y = self.ridaA*self.tilesize - (self.tilesize/2)
 
     def render(self, screen):
-        screen.blit(self.image, [self.x -32, self.y -32])
+        screen.blit(self.image, [self.x -(self.tilesize/2), self.y -(self.tilesize/2)])

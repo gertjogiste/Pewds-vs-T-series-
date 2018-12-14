@@ -36,4 +36,4 @@ class Maps:
         for y in range(len(self.maps[mapnr])):
             for x in range(len(self.maps[mapnr][0])):
                 if self.maps[mapnr][y][x] == 1:
-                    pygame.draw.rect(screen, [255, 255, 15], [64*x, 64*y, 63, 63])
+                    pygame.draw.rect(screen, [255, 255, 15], [64*x, 64*y, 64, 64])

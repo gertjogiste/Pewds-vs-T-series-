@@ -2,12 +2,13 @@ import pygame, sys
 from player import *
 from map import *
 
+tilesize = 64
 must = [0, 0, 0]
 res = [800, 640]
 Clock = pygame.time.Clock()
 pygame.init()
 
-player = Player(640, 400, 4, 64, 15)
+player = Player(640, 400, 4, tilesize, 20)
 
 screen = pygame.display.set_mode(res)
 
