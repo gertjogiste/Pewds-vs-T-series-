@@ -19,7 +19,7 @@ player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 mapnr = 0
 Map = Maps()
 
-minioon = Minion(700, 50, 3)
+enemies = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
 
 while True:
     for event in pygame.event.get():
@@ -31,11 +31,12 @@ while True:
 
     Map.draw(screen, mapnr, tilesize, player)
 
-    player.update(mapnr, Map)
+    player.update(mapnr, Map, enemies)
     player.render(screen)
 
-    minioon.update(mapnr, Map, tilesize)
-    minioon.render(screen, player, tilesize)
+    for minioon in enemies:
+        minioon.update(mapnr, Map, tilesize)
+        minioon.render(screen, player, tilesize)
 
     pygame.display.flip()
     Clock.tick(60)

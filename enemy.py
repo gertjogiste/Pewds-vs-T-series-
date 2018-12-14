@@ -1,7 +1,7 @@
 import pygame
 
 class Minion:
-    def __init__(self, x, y, life):
+    def __init__(self, x, y, life, tilesize):
         self.x = x
         self.x_max = self.x
         self.x_min = self.x - 200
@@ -11,15 +11,14 @@ class Minion:
         self.ver_speed = 5
         self.image = pygame.image.load("images/indian_walk2.png")
         self.orientation = "Rights"
+        self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
 
     def update(self, mapnr, Maps, tilesize):
-        tulpP = int((self.x + self.speed + (tilesize/2-1)) / tilesize)
+        tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
         ridaA = int((self.y + (tilesize/2-1)) / tilesize)
         ridaY = int((self.y - (tilesize/2)) / tilesize)
-        tulpV = int((self.x - (tilesize/2)) / tilesize)
+        tulpV = int((self.x + tilesize / 2 - (tilesize/2)) / tilesize)
 
-        if self.x + self.speed > self.x_max or self.x + self.speed < self.x_min:
-            self.speed = -self.speed
         if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
             self.x += self.speed
             self.orientation = "Right"
@@ -29,8 +28,9 @@ class Minion:
         else:
             self.speed = -self.speed
 
-
         self.gravity(mapnr, Maps, tilesize)
+
+        self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
 
     def gravity(self, mapnr, Maps, tilesize):
         tulpP = int((self.x + (tilesize/2-1)) / tilesize)

@@ -16,20 +16,26 @@ class Player:
         self.speedx = speed
         self.speedy = 0
         self.size = size
+        self.health = 10
         self.jumpheight = -jumpheight
         self.onGround = False
         self.tilesize = size
         self.orientation = "Right"
         self.image = self.stand
         self.counter = 0
-        self.cooldown = 0
+
+        self.jumpcooldown = 0
+        self.collidecooldown = 0
+
+        self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
+        self.hitbox = pygame.Rect([self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize*2])
 
         self.tulpP = int((self.x + (self.tilesize/2)) / self.tilesize)
         self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
         self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
-    def update(self, mapnr, Maps):
+    def update(self, mapnr, Maps, enemies):
         key = pygame.key.get_pressed()
         if key[pygame.K_RIGHT]:
             tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
@@ -58,21 +64,29 @@ class Player:
             self.jump()
             self.image = self.jumping
 
-
         if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT]:
             self.image = self.stand
 
         self.gravity(mapnr, Maps)
 
-        if self.cooldown > 0:
-            self.cooldown -= 1
+        self.hitbox = pygame.Rect(
+            [self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize * 2])
+
+        self.collision(enemies)
+
+        if self.jumpcooldown > 0:
+            self.jumpcooldown -= 1
+        if self.collidecooldown > 0:
+            self.collidecooldown -= 1
+
+        self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
 
     def jump(self):
-        if self.onGround and self.cooldown == 0:
+        if self.onGround and self.jumpcooldown == 0:
             self.speedy = self.jumpheight
             self.y += self.speedy
             self.onGround = False
-            self.cooldown = 15
+            self.jumpcooldown = 15
 
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
@@ -102,9 +116,27 @@ class Player:
         elif self.counter < 30:
             self.image = self.walk3
 
+    def collision(self, enemies):
+        for enemy in enemies:
+            if self.hitbox.colliderect(enemy.hitbox) and self.collidecooldown == 0 and self.health > 0:
+                self.health -= 1
+                self.collidecooldown = 100
 
 
     def render(self, screen):
+        if self.health > 5:
+            pygame.draw.rect(screen, [50*(10-self.health), 255, 0], self.lifebar)
+        else:
+            pygame.draw.rect(screen, [255, 50*self.health, 0], self.lifebar)
+
+        pygame.draw.line(screen, [0, 0, 0], [self.tilesize, self.tilesize],
+                         [self.tilesize + self.tilesize / 4 * 10, 32], 3)
+        pygame.draw.line(screen, [0, 0, 0], [self.tilesize + self.tilesize / 4 * 10, self.tilesize],
+                         [self.tilesize + self.tilesize / 4 * 10, self.tilesize * 1.5], 3)
+        pygame.draw.line(screen, [0, 0, 0], [self.tilesize + self.tilesize / 4 * 10, self.tilesize * 1.5],
+                         [self.tilesize, self.tilesize * 1.5], 3)
+        pygame.draw.line(screen, [0, 0, 0], [self.tilesize, self.tilesize * 1.5], [self.tilesize, self.tilesize], 3)
+
         if self.orientation == "Right":
             screen.blit(self.image, [400, self.y - (self.tilesize) - 16])
         elif self.orientation == "Left":
