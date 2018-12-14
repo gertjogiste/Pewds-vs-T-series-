@@ -12,7 +12,7 @@ player = Player(300, 400, 5, 64, -15)
 screen = pygame.display.set_mode(res)
 
 mapnr = 0
-
+map = Maps()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -21,7 +21,7 @@ while True:
 
     screen.fill(must)
 
-
+    map.draw(screen, mapnr)
 
     #player.update()
     #player.render(screen)
