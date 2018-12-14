@@ -20,6 +20,7 @@ mapnr = 0
 Map = Maps()
 
 enemies = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
+bullets = []
 
 while True:
     for event in pygame.event.get():
@@ -31,13 +32,19 @@ while True:
 
     Map.draw(screen, mapnr, tilesize, player)
 
-    player.update(mapnr, Map, enemies)
+    player.update(mapnr, Map, enemies, bullets)
     player.render(screen)
 
     for minioon in enemies:
-        minioon.update(mapnr, Map, tilesize)
+        minioon.update(mapnr, Map, tilesize, bullets)
         minioon.render(screen, player, tilesize)
 
+    for b, bullet in enumerate(bullets):
+        bullet.drawBullet(screen, player)
+        delete = bullet.bulletUpdate(Map, mapnr)
+        if delete == True:
+            del bullets[b]
+            continue
     pygame.display.flip()
     Clock.tick(60)
 

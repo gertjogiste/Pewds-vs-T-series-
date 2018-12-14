@@ -1,4 +1,5 @@
 import pygame
+from bullet import Bullet
 
 
 class Player:
@@ -26,6 +27,7 @@ class Player:
 
         self.jumpcooldown = 0
         self.collidecooldown = 0
+        self.shootcooldown = 0
 
         self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
         self.hitbox = pygame.Rect([self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize*2])
@@ -35,7 +37,7 @@ class Player:
         self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
-    def update(self, mapnr, Maps, enemies):
+    def update(self, mapnr, Maps, enemies, bullets):
         key = pygame.key.get_pressed()
         if key[pygame.K_RIGHT]:
             tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
@@ -64,6 +66,9 @@ class Player:
             self.jump()
             self.image = self.jumping
 
+        if key[pygame.K_SPACE]:
+            self.shoot(bullets)
+
         if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT]:
             self.image = self.stand
 
@@ -78,6 +83,8 @@ class Player:
             self.jumpcooldown -= 1
         if self.collidecooldown > 0:
             self.collidecooldown -= 1
+        if self.shootcooldown > 0:
+            self.shootcooldown -= 1
 
         self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
 
@@ -115,6 +122,11 @@ class Player:
             self.image = self.walk2
         elif self.counter < 30:
             self.image = self.walk3
+
+    def shoot(self, bullets):
+        if self.shootcooldown == 0:
+            bullets.append(Bullet(int(self.x), int(self.y), self.tilesize, self.orientation))
+            self.shootcooldown = 30
 
     def collision(self, enemies):
         for enemy in enemies:

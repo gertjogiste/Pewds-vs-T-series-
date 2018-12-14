@@ -12,8 +12,9 @@ class Minion:
         self.image = pygame.image.load("images/indian_walk2.png")
         self.orientation = "Rights"
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
+        self.health = life
 
-    def update(self, mapnr, Maps, tilesize):
+    def update(self, mapnr, Maps, tilesize, bullets):
         tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
         ridaA = int((self.y + (tilesize/2-1)) / tilesize)
         ridaY = int((self.y - (tilesize/2)) / tilesize)
@@ -31,6 +32,14 @@ class Minion:
         self.gravity(mapnr, Maps, tilesize)
 
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
+
+        for b, bullet in enumerate(bullets):
+            if self.hitbox.colliderect(bullet.hitbox):
+                if self.health > 0:
+                    self.health -= 1
+                del bullets[b]
+        if self.health == 0:
+            """surma asjad siia"""
 
     def gravity(self, mapnr, Maps, tilesize):
         tulpP = int((self.x + (tilesize/2-1)) / tilesize)
