@@ -9,7 +9,8 @@ class Minion:
         self.size = 10
         self.speed = 3
         self.ver_speed = 5
-        self.image = pygame.image.load("16.png")
+        self.image = pygame.image.load("images/indian_walk2.png")
+        self.orientation = "Rights"
 
     def update(self, mapnr, Maps, tilesize):
         tulpP = int((self.x + self.speed + (tilesize/2-1)) / tilesize)
@@ -21,10 +22,13 @@ class Minion:
             self.speed = -self.speed
         if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
             self.x += self.speed
+            self.orientation = "Right"
         elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
             self.x += self.speed
+            self.orientation = "Left"
         else:
             self.speed = -self.speed
+
 
         self.gravity(mapnr, Maps, tilesize)
 
@@ -44,6 +48,7 @@ class Minion:
             self.y = ridaA*tilesize - (tilesize/2)
             
     def render(self, screen, player, tilesize):
-        screen.blit(self.image, [self.x - player.x + 416, self.y - tilesize/2])
-
-    
+        if self.orientation == "Right":
+            screen.blit(self.image, [self.x - player.x + 416, self.y - tilesize/2])
+        elif self.orientation == "Left":
+            screen.blit(pygame.transform.flip(self.image, True, False), [self.x - player.x + 416, self.y - tilesize/2])
