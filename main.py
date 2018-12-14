@@ -9,7 +9,7 @@ res = [800, 640]
 Clock = pygame.time.Clock()
 pygame.init()
 
-pygame.mixer_music.load("sounds/Story(Hej Monika).wav")
+pygame.mixer_music.load("sounds/Final Boss(Bitch Lasagna).ogg")
 pygame.mixer_music.play(-1)
 player = Player(640, 400, 4, tilesize, tilesize/16*6)
 
