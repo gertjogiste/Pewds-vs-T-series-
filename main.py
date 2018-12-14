@@ -1,5 +1,6 @@
 import pygame, sys
 from player import *
+from map import *
 
 must = [0, 0, 0]
 res = [800, 640]
@@ -10,6 +11,8 @@ player = Player(300, 400, 5, 64, -15)
 
 screen = pygame.display.set_mode(res)
 
+mapnr = 0
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -18,8 +21,14 @@ while True:
 
     screen.fill(must)
 
-    player.update()
-    player.render(screen)
+
+
+    #player.update()
+    #player.render(screen)
+
+
 
     pygame.display.flip()
     pygame.time.wait(16)
+
+
