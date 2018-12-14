@@ -5,13 +5,14 @@ from map import *
 
 tilesize = 32
 must = [0, 0, 0]
+sinine = (66, 134, 244)
 res = [800, 640]
 Clock = pygame.time.Clock()
 pygame.init()
 
 pygame.mixer_music.load("sounds/Final Boss(Bitch Lasagna).ogg")
 pygame.mixer_music.play(-1)
-player = Player(640, 400, 4, tilesize, tilesize/16*6)
+player = Player(640, 400, 4, tilesize, tilesize/16*7)
 
 screen = pygame.display.set_mode(res)
 
@@ -26,7 +27,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-    screen.fill(must)
+    screen.fill(sinine)
 
     Map.draw(screen, mapnr, tilesize, player)
 
