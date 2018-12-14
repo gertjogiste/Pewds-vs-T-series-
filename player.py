@@ -24,7 +24,7 @@ class Player:
         if self.y + self.speedy < 500:
             self.speedy += 1
         else:
-            self.speedy = 0
+            self.speedy = 500 - self.y
             self.onGround = True
 
         self.y += self.speedy
