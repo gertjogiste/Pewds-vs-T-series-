@@ -2,13 +2,13 @@ import pygame, sys
 from player import *
 from map import *
 
-tilesize = 64
+tilesize = 32
 must = [0, 0, 0]
 res = [800, 640]
 Clock = pygame.time.Clock()
 pygame.init()
 
-player = Player(640, 400, 4, tilesize, 20)
+player = Player(640, 400, 4, tilesize, tilesize/16*6)
 
 screen = pygame.display.set_mode(res)
 
@@ -22,7 +22,7 @@ while True:
 
     screen.fill(must)
 
-    Map.draw(screen, mapnr)
+    Map.draw(screen, mapnr, tilesize)
 
     player.update(mapnr, Map)
     player.render(screen)

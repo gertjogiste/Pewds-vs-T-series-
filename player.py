@@ -53,6 +53,7 @@ class Player:
         self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
+
         if Maps.maps[mapnr][self.ridaA][self.tulpV] == 1 or Maps.maps[mapnr][self.ridaA][self.tulpP] == 1:
             self.onGround = True
         elif Maps.maps[mapnr][self.ridaA][self.tulpV] == 0 and Maps.maps[mapnr][self.ridaA][self.tulpP] == 0:
