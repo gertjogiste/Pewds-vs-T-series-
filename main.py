@@ -22,7 +22,7 @@ while True:
 
     screen.fill(must)
 
-    Map.draw(screen, mapnr, tilesize)
+    Map.draw(screen, mapnr, tilesize, player)
 
     player.update(mapnr, Map)
     player.render(screen)

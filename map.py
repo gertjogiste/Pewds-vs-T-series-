@@ -42,8 +42,8 @@ class Maps:
 
                      []]
 
-    def draw(self, screen, mapnr, tilesize):
+    def draw(self, screen, mapnr, tilesize, player):
         for y in range(len(self.maps[mapnr])):
             for x in range(len(self.maps[mapnr][0])):
                 if self.maps[mapnr][y][x] == 1:
-                    pygame.draw.rect(screen, [255, 255, 15], [tilesize*x, tilesize*y, tilesize, tilesize])
+                    pygame.draw.rect(screen, [255, 255, 15], [tilesize*x-player.x+416, tilesize*y, tilesize, tilesize])

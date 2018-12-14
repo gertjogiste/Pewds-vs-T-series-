@@ -13,6 +13,7 @@ class Player:
         self.onGround = False
         self.tilesize = size
 
+
         self.tulpP = int((self.x + (self.tilesize/2)) / self.tilesize)
         self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
         self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
@@ -64,4 +65,4 @@ class Player:
             self.y = self.ridaA*self.tilesize - (self.tilesize/2)
 
     def render(self, screen):
-        screen.blit(self.image, [self.x -(self.tilesize/2), self.y -(self.tilesize/2)])
+        screen.blit(self.image, [400, self.y -(self.tilesize/2)])
