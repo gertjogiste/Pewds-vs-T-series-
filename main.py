@@ -1,5 +1,6 @@
 import pygame, sys
 from player import *
+from enemy import *
 from map import *
 
 tilesize = 32
@@ -16,6 +17,9 @@ screen = pygame.display.set_mode(res)
 
 mapnr = 0
 Map = Maps()
+
+minioon = Minion(700, 50, 3)
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -29,7 +33,8 @@ while True:
     player.update(mapnr, Map)
     player.render(screen)
 
-
+    minioon.update(mapnr, Map, tilesize)
+    minioon.render(screen, player, tilesize)
 
     pygame.display.flip()
     Clock.tick(60)
