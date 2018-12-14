@@ -4,10 +4,10 @@ from map import *
 
 must = [0, 0, 0]
 res = [800, 640]
-
+Clock = pygame.time.Clock()
 pygame.init()
 
-player = Player(300, 400, 5, 64, 15)
+player = Player(640, 400, 4, 64, 15)
 
 screen = pygame.display.set_mode(res)
 
@@ -29,6 +29,6 @@ while True:
 
 
     pygame.display.flip()
-    pygame.time.wait(16)
+    Clock.tick(60)
 
 
