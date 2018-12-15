@@ -25,7 +25,7 @@ menu = Menu()
 player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 
 mapnr = 0
-Map = Maps()
+Map = Maps(screen)
 
 enemies = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
 bullets = []
