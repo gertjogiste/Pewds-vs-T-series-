@@ -40,7 +40,6 @@ class Player:
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
     def update(self, mapnr, Maps, enemies, bullets):
-        print(self.subs)
         key = pygame.key.get_pressed()
         if key[pygame.K_RIGHT]:
             tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
@@ -149,7 +148,7 @@ class Player:
                 if self.hitbox.colliderect(enemy.hitbox) and self.collidecooldown == 0 and self.health > 0:
                     self.health -= 1
                     self.collidecooldown = 100
-                    ouch =pygame.mixer.Sound("sounds/ouch.wav")
+                    ouch =pygame.mixer.Sound("sounds/ouch.ogg")
                     ouch.play()
             if enemy.type == 1:
                 if self.hitbox.colliderect(enemy.hitbox) and enemy.collided == 0:
