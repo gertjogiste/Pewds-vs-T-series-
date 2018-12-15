@@ -28,7 +28,7 @@ font = pygame.font.SysFont("Comic Sans MS", 30)
 
 menu = Menu()
 
-player = Player(200, 400, 4, tilesize, tilesize/16*7, screen)
+player = Player(200, 400, 4, tilesize, tilesize/16*7)
 
 mapnr = 0
 
@@ -86,8 +86,15 @@ while True:
 
             Map.draw(screen, mapnr, tilesize, player, minions)
 
-            player.update(mapnr, Map, minions, bullets)
+            changelevel = player.update(mapnr, Map, minions, bullets)
             player.render(screen)
+
+            if changelevel:
+                mapnr += 1
+                minions = []
+                bullets = []
+                player = Player(200, 400, 4, tilesize, tilesize / 16 * 7, player.subs)
+                break
 
             for m,minioon in enumerate(minions):
                 minioon.update(mapnr, Map, tilesize, bullets)

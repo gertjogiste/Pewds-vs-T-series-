@@ -3,7 +3,7 @@ from bullet import Bullet
 
 
 class Player:
-    def __init__(self, x, y, speed, size, jumpheight, screen):
+    def __init__(self, x, y, speed, size, jumpheight, subs=0):
         self.x = x
         self.y = y
 
@@ -36,7 +36,7 @@ class Player:
         self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
         self.alreadydead = False
         self.hitbox = pygame.Rect([self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize*2])
-        self.subs = 0
+        self.subs = subs
 
         self.tulpP = int((self.x + (self.tilesize/2)) / self.tilesize)
         self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
@@ -71,7 +71,7 @@ class Player:
                     self.image = self.skid
                 self.walk()
 
-                if Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0 and Maps.maps[mapnr][ridaYY][tulpV] == 0:
+                if Maps.maps[mapnr][ridaA][tulpV] == 0 or Maps.maps[mapnr][ridaA][tulpV] == 5 and Maps.maps[mapnr][ridaY][tulpV] == 0 or Maps.maps[mapnr][ridaY][tulpV] == 5 and Maps.maps[mapnr][ridaYY][tulpV] == 0 or Maps.maps[mapnr][ridaYY][tulpV] == 5:
                     self.x -= self.speedx
 
             if key[pygame.K_UP]:
@@ -89,7 +89,7 @@ class Player:
             self.hitbox = pygame.Rect(
                 [self.x - self.tilesize / 2, self.y - self.tilesize*2, self.tilesize, self.tilesize * 2])
 
-            self.collision(enemies)
+            changelevel = self.collision(enemies, Maps, mapnr)
 
             if self.jumpcooldown > 0:
                 self.jumpcooldown -= 1
@@ -109,6 +109,8 @@ class Player:
                 pygame.mixer.music.pause()
                 self.image = self.dead
                 self.alreadydead = True
+
+            return changelevel
 
         if self.alreadydead == True:
             self.y += 0.5
@@ -131,7 +133,7 @@ class Player:
             self.speedy = 0
         if 3 > Maps.maps[mapnr][ridaA][tulpV] > 0 or 3 > Maps.maps[mapnr][ridaA][tulpP] > 0:
             self.onGround = True
-        elif Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaA][tulpP] == 0:
+        elif Maps.maps[mapnr][ridaA][tulpV] == 0 or Maps.maps[mapnr][ridaA][tulpV] == 5 and Maps.maps[mapnr][ridaA][tulpP] == 0 or Maps.maps[mapnr][ridaA][tulpP] == 5:
             self.speedy += 1
             self.y += self.speedy
             self.onGround = False
@@ -156,7 +158,7 @@ class Player:
             quack = pygame.mixer.Sound("sounds/quack.ogg")
             quack.play()
 
-    def collision(self, enemies):
+    def collision(self, enemies, Map, mapnr):
         for enemy in enemies:
             if enemy.type == 0:
                 if self.hitbox.colliderect(enemy.hitbox) and self.collidecooldown == 0 and self.health > 0:
@@ -172,6 +174,17 @@ class Player:
                     enemy.speed = 1
                     newsub = pygame.mixer.Sound("sounds/holy_help.ogg")
                     newsub.play()
+
+        tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
+        tulpP = int((self.x + (self.tilesize / 2 - 1)) / self.tilesize)
+        ridaA = int((self.y + (self.tilesize / 2)) / self.tilesize)
+        ridaY = int((self.y - (self.tilesize / 2)) / self.tilesize)
+        ridaYY = int((self.y - 1.5 * self.tilesize) / self.tilesize)
+
+        if Map.maps[mapnr][ridaA][tulpV] == 5 or Map.maps[mapnr][ridaY][tulpP] == 5 or \
+                Map.maps[mapnr][ridaA][tulpP] == 5 or Map.maps[mapnr][ridaY][tulpV] == 5 or \
+                Map.maps[mapnr][ridaYY][tulpV] == 5 or Map.maps[mapnr][ridaYY][tulpP] == 5:
+            return True
 
     def vilgu(self):
         if self.collidecooldown % 4 and self.collidecooldown >= 0:
