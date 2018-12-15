@@ -131,7 +131,7 @@ class Player:
             self.image = self.walk3
 
     def shoot(self, bullets):
-        if self.shootcooldown == 0:
+        if self.shootcooldown == 0 and self.collidecooldown == 0:
             bullets.append(Bullet(int(self.x), int(self.y), self.tilesize, self.orientation))
             self.shootcooldown = 30
 
@@ -142,7 +142,6 @@ class Player:
                 self.collidecooldown = 100
                 ouch =pygame.mixer.Sound("sounds/ouch.wav")
                 ouch.play()
-
 
     def vilgu(self):
         if self.collidecooldown % 4 and self.collidecooldown >= 0:
