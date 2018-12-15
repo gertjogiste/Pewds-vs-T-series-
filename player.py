@@ -70,7 +70,7 @@ class Player:
         if key[pygame.K_SPACE]:
             self.shoot(bullets)
 
-        if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT] and not key[pygame.K_UP]:
+        if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT] and self.onGround:
             self.image = self.stand
 
         self.gravity(mapnr, Maps)
