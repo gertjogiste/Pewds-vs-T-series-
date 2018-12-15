@@ -1,5 +1,6 @@
 import pygame
 
+
 class Minion:
     def __init__(self, x, y, life, tilesize):
         self.x = x
@@ -13,6 +14,7 @@ class Minion:
         self.orientation = "Rights"
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
         self.health = life
+        self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
 
     def update(self, mapnr, Maps, tilesize, bullets):
         tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
@@ -41,6 +43,8 @@ class Minion:
         if self.health == 0:
             """surma asjad siia"""
 
+        self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+
     def gravity(self, mapnr, Maps, tilesize):
         tulpP = int((self.x + (tilesize/2-1)) / tilesize)
         tulpV = int((self.x - (tilesize/2)) / tilesize)
@@ -57,6 +61,13 @@ class Minion:
             self.y = ridaA*tilesize - (tilesize/2)
             
     def render(self, screen, player, tilesize):
+        location = [self.lifebar[0] - player.x + 416, self.lifebar[1], self.lifebar[2], self.lifebar[3]]
+
+        if self.health > 1:
+            pygame.draw.rect(screen, [255*(3-self.health), 255, 0], location)
+        elif self.health == 1:
+            pygame.draw.rect(screen, [255, 0, 0], location)
+
         if self.orientation == "Right":
             screen.blit(self.image, [self.x - player.x + 416, self.y - tilesize/2])
         elif self.orientation == "Left":
