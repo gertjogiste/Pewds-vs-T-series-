@@ -71,7 +71,7 @@ while True:
 
             elif state == "MENU":
                 del player
-                player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
+                player = Player(200, 400, 4, tilesize, tilesize/16*7, screen)
 
                 del minions
                 minions = []

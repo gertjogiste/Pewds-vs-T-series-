@@ -10,6 +10,7 @@ class Minion:
         self.size = 10
         self.speed = 3
         self.ver_speed = 5
+        self.onGround = True
         self.type = type
         self.alreadydead = False
         self.orientation = "Right"

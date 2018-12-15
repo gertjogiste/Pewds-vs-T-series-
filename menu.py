@@ -18,7 +18,7 @@ class Menu:
         self.punasetoon = punane
         self.play_pic = pygame.image.load("images/PLAY_BUTTON.png")
         self.quit_pic = pygame.image.load("images/QUIT_BUTTON.png")
-        #self.menu_pic = pygame.image.load("images/ .png")
+        self.menu_pic = pygame.image.load("images/MAIN-PIC.png")
 
     def update(self, state):
         mouse_pos = pygame.mouse.get_pos()
@@ -50,7 +50,7 @@ class Menu:
         pygame.draw.rect(screen, self.punasetoon, self.punane_kast)
         screen.blit(self.play_pic, [150, 550])
         screen.blit(self.quit_pic, [550, 550])
-
+        screen.blit(self.menu_pic, [25, 200])
     def main_loop(self, clock, screen, state):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
