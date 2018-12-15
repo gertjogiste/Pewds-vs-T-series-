@@ -44,7 +44,9 @@ class Player:
             tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
             ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
             ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
-            if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
+            ridaYY = int((self.y - 1.5*self.tilesize) / self.tilesize)
+
+            if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0 and Maps.maps[mapnr][ridaYY][tulpP] == 0:
                 self.x += self.speedx
 
             if self.orientation == "Left":
@@ -55,12 +57,13 @@ class Player:
             tulpV = int((self.x - self.speedx - (self.tilesize/2)) / self.tilesize)
             ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
             ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
+            ridaYY =int((self.y - 1.5*self.tilesize) / self.tilesize)
             if self.orientation == "Right":
                 self.orientation = "Left"
                 self.image = self.skid
             self.walk()
 
-            if Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
+            if Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0 and Maps.maps[mapnr][ridaYY][tulpV] == 0:
                 self.x -= self.speedx
 
         if key[pygame.K_UP]:
