@@ -16,8 +16,10 @@ class Menu:
         self.punane_kast = (550, 550, 100, 50)
         self.rohelisetoon = roheline
         self.punasetoon = punane
-        self.textfont = pygame.font.Font('freesansbold.ttf', 50)
-        self.textSurface = self.textfont.render('Pewds vs T-Series', False, (0, 0, 0))
+        self.play_pic = pygame.image.load("images/PLAY_BUTTON.png")
+        self.quit_pic = pygame.image.load("images/QUIT_BUTTON.png")
+        #self.menu_pic = pygame.image.load("images/ .png")
+
     def update(self, state):
         mouse_pos = pygame.mouse.get_pos()
         pressed = pygame.mouse.get_pressed()
@@ -30,7 +32,9 @@ class Menu:
         else:
             self.rohelisetoon = roheline
 
-        if 550 < mouse_pos[0] < 550 + 100 and 550 < mouse_pos[1] < 550 + 50:
+        if 550 < mouse_pos[
+
+        0] < 550 + 100 and 550 < mouse_pos[1] < 550 + 50:
             self.punasetoon = hele_punane
 
             if pressed[0]:
@@ -44,7 +48,8 @@ class Menu:
     def render(self, screen):
         pygame.draw.rect(screen, self.rohelisetoon, self.roheline_kast)
         pygame.draw.rect(screen, self.punasetoon, self.punane_kast)
-        screen.blit(self.textSurface, [100, 200])
+        screen.blit(self.play_pic, [150, 550])
+        screen.blit(self.quit_pic, [550, 550])
 
     def main_loop(self, clock, screen, state):
         for event in pygame.event.get():
