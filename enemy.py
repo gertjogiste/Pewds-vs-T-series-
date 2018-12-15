@@ -14,7 +14,7 @@ class Minion:
         self.alreadydead = False
         self.orientation = "Right"
         self.counterlength = 500
-        self.counterlengthfreq = self.counterlength/2
+        self.counterlengthfreq = self.counterlength*0.8
 
         if type == 0:
             self.image = pygame.image.load("images/indian_walk1.png").convert_alpha()
