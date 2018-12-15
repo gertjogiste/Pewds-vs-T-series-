@@ -16,8 +16,8 @@ class Menu:
         self.punane_kast = (550, 550, 100, 50)
         self.rohelisetoon = roheline
         self.punasetoon = punane
-        self.textfont = pygame.font.Font('freesansbold.ttf', 115)
-
+        self.textfont = pygame.font.Font('freesansbold.ttf', 50)
+        self.textSurface = self.textfont.render('Pewds vs T-Series', False, (0, 0, 0))
     def update(self, state):
         mouse_pos = pygame.mouse.get_pos()
         pressed = pygame.mouse.get_pressed()
@@ -44,6 +44,7 @@ class Menu:
     def render(self, screen):
         pygame.draw.rect(screen, self.rohelisetoon, self.roheline_kast)
         pygame.draw.rect(screen, self.punasetoon, self.punane_kast)
+        screen.blit(self.textSurface, [100, 200])
 
     def main_loop(self, clock, screen, state):
         for event in pygame.event.get():
