@@ -58,6 +58,7 @@ while True:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_p and state != "PAUSE":
                     state = "PAUSE"
                     pygame.mixer.music.pause()
+
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_p and state == "PAUSE":
                     state = "GAME"
                     pygame.mixer.music.unpause()
