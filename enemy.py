@@ -2,7 +2,7 @@ import pygame
 
 
 class Minion:
-    def __init__(self, x, y, life, tilesize):
+    def __init__(self, x, y, life, tilesize, type):
         self.x = x
         self.x_max = self.x
         self.x_min = self.x - 200
@@ -10,6 +10,7 @@ class Minion:
         self.size = 10
         self.speed = 3
         self.ver_speed = 5
+        self.type = type
 
         self.image = pygame.image.load("images/indian_walk1.png")
         self.walk1 = pygame.image.load("images/indian_walk1.png")
@@ -20,8 +21,9 @@ class Minion:
 
         self.orientation = "Rights"
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
-        self.health = life
-        self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+        if self.type == 0:
+            self.health = life
+            self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
 
     def update(self, mapnr, Maps, tilesize, bullets):
         tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
@@ -44,15 +46,22 @@ class Minion:
 
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
 
-        for b, bullet in enumerate(bullets):
-            if self.hitbox.colliderect(bullet.hitbox):
-                if self.health > 0:
-                    self.health -= 1
-                del bullets[b]
+        if self.type == 0:
+            for b, bullet in enumerate(bullets):
+                if self.hitbox.colliderect(bullet.hitbox):
+                    if self.health > 0:
+                        self.health -= 1
+                    del bullets[b]
         if self.health == 0:
             """surma asjad siia"""
 
-        self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+        if self.type == 1:
+            for b, bullet in enumerate(bullets):
+                if self.hitbox.colliderect(bullet.hitbox):
+                    del bullets[b]
+
+        if self.type == 0:
+            self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
 
     def walk(self):
         self.counter += 1
@@ -81,12 +90,12 @@ class Minion:
             self.y = ridaA*tilesize - (tilesize/2)
             
     def render(self, screen, player, tilesize):
-        location = [self.lifebar[0] - player.x + 416, self.lifebar[1], self.lifebar[2], self.lifebar[3]]
-
-        if self.health > 1:
-            pygame.draw.rect(screen, [255*(3-self.health), 255, 0], location)
-        elif self.health == 1:
-            pygame.draw.rect(screen, [255, 0, 0], location)
+        if self.type == 0:
+            location = [self.lifebar[0] - player.x + 416, self.lifebar[1], self.lifebar[2], self.lifebar[3]]
+            if self.health > 1:
+                pygame.draw.rect(screen, [255*(3-self.health), 255, 0], location)
+            elif self.health == 1:
+                pygame.draw.rect(screen, [255, 0, 0], location)
 
         if self.orientation == "Right":
             screen.blit(self.image, [self.x - player.x + 416, self.y - tilesize/2])

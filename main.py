@@ -26,8 +26,8 @@ player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 
 mapnr = 0
 Map = Maps(screen)
-
-enemies = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
+#type 1 - pewdsM type 0 - t-seriesM
+minions = [Minion(900, 40, 3, tilesize, 0), Minion(700, 50, 3, tilesize, 0), Minion(1400, 30, 3, tilesize, 1)]
 bullets = []
 
 while True:
@@ -65,8 +65,8 @@ while True:
                 del player
                 player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 
-                del enemies
-                enemies = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
+                del minions
+                minions = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
 
                 bullets = []
 
@@ -77,10 +77,10 @@ while True:
 
             Map.draw(screen, mapnr, tilesize, player)
 
-            player.update(mapnr, Map, enemies, bullets)
+            player.update(mapnr, Map, minions, bullets)
             player.render(screen)
 
-            for minioon in enemies:
+            for minioon in minions:
                 minioon.update(mapnr, Map, tilesize, bullets)
                 minioon.render(screen, player, tilesize)
 

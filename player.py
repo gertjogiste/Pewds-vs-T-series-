@@ -49,6 +49,8 @@ class Player:
             if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0 and Maps.maps[mapnr][ridaYY][tulpP] == 0:
                 self.x += self.speedx
 
+
+
             if self.orientation == "Left":
                 self.orientation = "Right"
                 self.image = self.skid
