@@ -14,9 +14,7 @@ res = [800, 640]
 Clock = pygame.time.Clock()
 pygame.init()
 
-pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
-pygame.mixer_music.set_volume(0.3)
-pygame.mixer_music.play(-1)
+
 
 pygame.font.init()
 
@@ -39,6 +37,9 @@ bullets = []
 while True:
     if state == "MENU":
         pygame.mixer.music.pause()
+        pygame.mixer.stop()
+        pygame.mixer.music.load("sounds/Menu_music.ogg")
+        pygame.mixer.music.play()
         while True:
             state = menu.main_loop(Clock, screen, state)
 
@@ -47,6 +48,10 @@ while True:
                 break
 
     if state == "GAME":
+        pygame.mixer.music.stop()
+        pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
+        pygame.mixer_music.set_volume(0.3)
+        pygame.mixer_music.play(-1)
         Map = Maps(screen)
         while True:
             for event in pygame.event.get():
@@ -86,7 +91,7 @@ while True:
 
             Map.draw(screen, mapnr, tilesize, player, minions)
 
-            player.update(mapnr, Map, minions, bullets)
+            state = player.update(mapnr, Map, minions, bullets, state)
             player.render(screen)
 
             for m,minioon in enumerate(minions):

@@ -43,7 +43,7 @@ class Player:
         self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
-    def update(self, mapnr, Maps, enemies, bullets):
+    def update(self, mapnr, Maps, enemies, bullets, state):
         if self.alreadydead == False:
             key = pygame.key.get_pressed()
 
@@ -112,6 +112,10 @@ class Player:
 
         if self.alreadydead == True:
             self.y += 0.5
+            if self.y > 670:
+                state = "MENU"
+        return state
+
 
     def jump(self):
         if self.onGround and self.jumpcooldown == 0:
