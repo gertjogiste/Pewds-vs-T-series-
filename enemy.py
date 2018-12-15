@@ -13,6 +13,8 @@ class Minion:
         self.type = type
         self.alreadydead = False
         self.orientation = "Right"
+        self.counterlength = 500
+        self.counterlengthfreq = self.counterlength/2
 
         if type == 0:
             self.image = pygame.image.load("images/indian_walk1.png").convert_alpha()
@@ -57,21 +59,19 @@ class Minion:
                 else:
                     self.speed = -self.speed
 
-            if self.type == 1 and self.sitcounter < 250:
+            if self.type == 1 and self.sitcounter < self.counterlengthfreq:
                 if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
                     self.x += self.speed
                     self.orientation = "Right"
                     self.walk()
-                    print(self.speed)
                 elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
                     self.x += self.speed
                     self.orientation = "Left"
                     self.walk()
-                    print(self.speed, "a")
                 else:
                     self.speed = -self.speed
 
-            elif self.sitcounter > 250:
+            elif self.sitcounter > self.counterlengthfreq:
                 self.image = self.sit
 
             self.gravity(mapnr, Maps, tilesize)
@@ -89,6 +89,8 @@ class Minion:
                     self.type = 3
                     self.image = self.dead
                     self.alreadydead = True
+                    deadmusic = pygame.mixer.Sound("sounds/dead_minion.ogg")
+                    deadmusic.play()
 
                 self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
 
@@ -100,7 +102,7 @@ class Minion:
             if self.type == 1:
                 self.sitcounter += 1
 
-                if self.sitcounter > 500:
+                if self.sitcounter > self.counterlength:
                     self.sitcounter = 0
 
         if self.alreadydead == True:

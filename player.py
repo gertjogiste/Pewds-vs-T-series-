@@ -166,6 +166,10 @@ class Player:
                 if self.hitbox.colliderect(enemy.hitbox) and enemy.collided == 0:
                     self.subs += 1
                     enemy.collided = 1
+                    enemy.counterlengthfreq = enemy.counterlength/10
+                    enemy.speed = 1
+                    newsub = pygame.mixer.Sound("sounds/holy_help.ogg")
+                    newsub.play()
 
     def vilgu(self):
         if self.collidecooldown % 4 and self.collidecooldown >= 0:
