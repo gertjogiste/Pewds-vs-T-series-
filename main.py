@@ -88,9 +88,11 @@ while True:
             player.update(mapnr, Map, minions, bullets)
             player.render(screen)
 
-            for minioon in minions:
+            for m,minioon in enumerate(minions):
                 minioon.update(mapnr, Map, tilesize, bullets)
                 minioon.render(screen, player, tilesize)
+                if minioon.y < 0:
+                    del minions[m]
 
             for b, bullet in enumerate(bullets):
                 bullet.drawBullet(screen, player)

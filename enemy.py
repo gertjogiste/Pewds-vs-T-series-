@@ -13,10 +13,11 @@ class Minion:
         self.type = type
         self.alreadydead = False
 
-        self.image = pygame.image.load("images/indian_walk1.png")
-        self.walk1 = pygame.image.load("images/indian_walk1.png")
-        self.walk2 = pygame.image.load("images/indian_walk2.png")
-        self.walk3 = pygame.image.load("images/indian_walk3.png")
+        self.image = pygame.image.load("images/indian_walk1.png").convert_alpha()
+        self.walk1 = pygame.image.load("images/indian_walk1.png").convert_alpha()
+        self.walk2 = pygame.image.load("images/indian_walk2.png").convert_alpha()
+        self.walk3 = pygame.image.load("images/indian_walk3.png").convert_alpha()
+        self.dead = pygame.image.load("images/indian_dead.png").convert_alpha()
         self.counter = 0
 
 
@@ -58,6 +59,7 @@ class Minion:
                         del bullets[b]
                 if self.health == 0 and self.alreadydead == False:
                     self.type = 3
+                    self.image = self.dead
                     self.alreadydead = True
 
             if self.type == 1:
