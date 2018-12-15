@@ -32,6 +32,7 @@ class Player:
 
         self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
         self.hitbox = pygame.Rect([self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize*2])
+        self.subs = 0
 
         self.tulpP = int((self.x + (self.tilesize/2)) / self.tilesize)
         self.ridaA = int((self.y + (self.tilesize/2)) / self.tilesize)
@@ -39,6 +40,7 @@ class Player:
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
     def update(self, mapnr, Maps, enemies, bullets):
+        print(self.subs)
         key = pygame.key.get_pressed()
         if key[pygame.K_RIGHT]:
             tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
@@ -149,6 +151,10 @@ class Player:
                     self.collidecooldown = 100
                     ouch =pygame.mixer.Sound("sounds/ouch.wav")
                     ouch.play()
+            if enemy.type == 1:
+                if self.hitbox.colliderect(enemy.hitbox) and enemy.collided == 0:
+                    self.subs += 1
+                    enemy.collided = 1
 
     def vilgu(self):
         if self.collidecooldown % 4 and self.collidecooldown >= 0:

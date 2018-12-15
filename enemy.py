@@ -24,6 +24,8 @@ class Minion:
         if self.type == 0:
             self.health = life
             self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+        if self.type == 1:
+            self.collided = 0
 
     def update(self, mapnr, Maps, tilesize, bullets):
         tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
