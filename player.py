@@ -153,6 +153,8 @@ class Player:
         if self.shootcooldown == 0 and self.collidecooldown == 0:
             bullets.append(Bullet(int(self.x), int(self.y), self.tilesize, self.orientation))
             self.shootcooldown = 30
+            quack = pygame.mixer.Sound("sounds/quack.ogg")
+            quack.play()
 
     def collision(self, enemies):
         for enemy in enemies:

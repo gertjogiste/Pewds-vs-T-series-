@@ -15,7 +15,7 @@ Clock = pygame.time.Clock()
 pygame.init()
 
 pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
-pygame.mixer_music.set_volume(0.5)
+pygame.mixer_music.set_volume(0.3)
 pygame.mixer_music.play(-1)
 
 pygame.font.init()
