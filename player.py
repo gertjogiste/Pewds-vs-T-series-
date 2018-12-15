@@ -26,6 +26,8 @@ class Player:
         self.counter = 0
         self.eikuva = 0
 
+        self.jumpS = pygame.mixer.Sound("sounds/jump_2.ogg")
+        self.jumpS.set_volume(0.5)
         self.jumpcooldown = 0
         self.collidecooldown = 0
         self.shootcooldown = 0
@@ -115,9 +117,7 @@ class Player:
             self.y += self.speedy
             self.onGround = False
             self.jumpcooldown = 15
-            jumpS = pygame.mixer.Sound("sounds/jump_2.ogg")
-            jumpS.set_volume(0.5)
-            jumpS.play()
+            self.jumpS.play()
 
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
