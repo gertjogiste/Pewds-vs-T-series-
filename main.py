@@ -19,6 +19,8 @@ pygame.mixer_music.play(-1)
 
 screen = pygame.display.set_mode(res)
 background = pygame.image.load("images/background0.png").convert()
+pause_screen = pygame.image.load("images/pause_screen.png").convert_alpha()
+pause_screen.set_alpha(125)
 
 menu = Menu()
 
@@ -56,7 +58,7 @@ while True:
                     pygame.mixer.music.unpause()
             if state == "PAUSE":
 
-                screen.fill(must)
+                screen.blit(pause_screen, [0, 0])
 
                 pygame.display.flip()
                 continue
@@ -73,7 +75,7 @@ while True:
                 break
 
             screen.fill(sinine)
-            screen.blit(background, [0,0])
+            screen.blit(background, [0, 0])
 
             Map.draw(screen, mapnr, tilesize, player)
 
