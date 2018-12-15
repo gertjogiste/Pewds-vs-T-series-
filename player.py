@@ -31,6 +31,7 @@ class Player:
         self.shootcooldown = 0
 
         self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
+        self.alreadydead = False
         self.hitbox = pygame.Rect([self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize*2])
         self.subs = 0
 
@@ -40,64 +41,73 @@ class Player:
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
     def update(self, mapnr, Maps, enemies, bullets):
-        key = pygame.key.get_pressed()
-        if key[pygame.K_RIGHT]:
-            tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
-            ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
-            ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
-            ridaYY = int((self.y - 1.5*self.tilesize) / self.tilesize)
+        if self.alreadydead == False:
+            key = pygame.key.get_pressed()
+            if key[pygame.K_RIGHT]:
+                tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
+                ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
+                ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
+                ridaYY = int((self.y - 1.5*self.tilesize) / self.tilesize)
 
-            if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0 and Maps.maps[mapnr][ridaYY][tulpP] == 0:
-                self.x += self.speedx
-
-
-
-            if self.orientation == "Left":
-                self.orientation = "Right"
-                self.image = self.skid
-            self.walk()
-        elif key[pygame.K_LEFT]:
-            tulpV = int((self.x - self.speedx - (self.tilesize/2)) / self.tilesize)
-            ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
-            ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
-            ridaYY =int((self.y - 1.5*self.tilesize) / self.tilesize)
-            if self.orientation == "Right":
-                self.orientation = "Left"
-                self.image = self.skid
-            self.walk()
-
-            if Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0 and Maps.maps[mapnr][ridaYY][tulpV] == 0:
-                self.x -= self.speedx
-
-        if key[pygame.K_UP]:
-            self.jump()
-            self.image = self.jumping
-
-        if key[pygame.K_SPACE]:
-            self.shoot(bullets)
-
-        if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT] and self.onGround:
-            self.image = self.stand
-
-        self.gravity(mapnr, Maps)
-
-        self.hitbox = pygame.Rect(
-            [self.x - self.tilesize / 2, self.y - self.tilesize*2, self.tilesize, self.tilesize * 2])
-
-        self.collision(enemies)
-
-        if self.jumpcooldown > 0:
-            self.jumpcooldown -= 1
-        if self.collidecooldown > 0:
-            self.vilgu()
-            self.collidecooldown -= 1
-        if self.shootcooldown > 0:
-            self.shootcooldown -= 1
-        if self.collidecooldown == 0:
-            self.eikuva = 0
+                if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0 and Maps.maps[mapnr][ridaYY][tulpP] == 0:
+                    self.x += self.speedx
 
 
-        self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
+
+                if self.orientation == "Left":
+                    self.orientation = "Right"
+                    self.image = self.skid
+                self.walk()
+            elif key[pygame.K_LEFT]:
+                tulpV = int((self.x - self.speedx - (self.tilesize/2)) / self.tilesize)
+                ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
+                ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
+                ridaYY =int((self.y - 1.5*self.tilesize) / self.tilesize)
+                if self.orientation == "Right":
+                    self.orientation = "Left"
+                    self.image = self.skid
+                self.walk()
+
+                if Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0 and Maps.maps[mapnr][ridaYY][tulpV] == 0:
+                    self.x -= self.speedx
+
+            if key[pygame.K_UP]:
+                self.jump()
+                self.image = self.jumping
+
+            if key[pygame.K_SPACE]:
+                self.shoot(bullets)
+
+            if not key[pygame.K_RIGHT] and not key[pygame.K_LEFT] and self.onGround:
+                self.image = self.stand
+
+            self.gravity(mapnr, Maps)
+
+            self.hitbox = pygame.Rect(
+                [self.x - self.tilesize / 2, self.y - self.tilesize*2, self.tilesize, self.tilesize * 2])
+
+            self.collision(enemies)
+
+            if self.jumpcooldown > 0:
+                self.jumpcooldown -= 1
+            if self.collidecooldown > 0:
+                self.vilgu()
+                self.collidecooldown -= 1
+            if self.shootcooldown > 0:
+                self.shootcooldown -= 1
+            if self.collidecooldown == 0:
+                self.eikuva = 0
+
+
+            self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
+
+            if self.health  == 0 and not self.alreadydead:
+                ded = pygame.mixer.Sound("sounds/pewds_dead.ogg")
+                ded.play()
+                pygame.mixer.music.pause()
+                self.alreadydead = True
+        if self.alreadydead == True:
+            self.y += 0.5
 
     def jump(self):
         if self.onGround and self.jumpcooldown == 0:
@@ -179,3 +189,4 @@ class Player:
             screen.blit(self.image, [400, self.y - (self.tilesize) - 16])
         elif self.orientation == "Left" and not self.eikuva == 3:
             screen.blit(pygame.transform.flip(self.image, True, False), [400, self.y - (self.tilesize) - 16])
+

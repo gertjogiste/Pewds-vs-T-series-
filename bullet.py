@@ -25,5 +25,5 @@ class Bullet:
         tulpV = int((self.center[0] - self.radius) / self.tilesize)
         ridaY = int((self.center[1] - self.radius) / self.tilesize)
 
-        if Maps.maps[mapnr][ridaA][tulpP] == 1 or Maps.maps[mapnr][ridaA][tulpV] == 1 or Maps.maps[mapnr][ridaY][tulpP] == 1 or Maps.maps[mapnr][ridaY][tulpV] == 1:
+        if Maps.maps[mapnr][ridaA][tulpP] > 0 or Maps.maps[mapnr][ridaA][tulpV] > 0 or Maps.maps[mapnr][ridaY][tulpP] > 0 or Maps.maps[mapnr][ridaY][tulpV] > 0:
             return True

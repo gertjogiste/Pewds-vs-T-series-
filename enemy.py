@@ -11,6 +11,7 @@ class Minion:
         self.speed = 3
         self.ver_speed = 5
         self.type = type
+        self.alreadydead = False
 
         self.image = pygame.image.load("images/indian_walk1.png")
         self.walk1 = pygame.image.load("images/indian_walk1.png")
@@ -28,42 +29,46 @@ class Minion:
             self.collided = 0
 
     def update(self, mapnr, Maps, tilesize, bullets):
-        tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
-        ridaA = int((self.y + (tilesize/2-1)) / tilesize)
-        ridaY = int((self.y - (tilesize/2)) / tilesize)
-        tulpV = int((self.x + tilesize / 2 - (tilesize/2)) / tilesize)
+        if self.alreadydead == False:
+            tulpP = int((self.x + tilesize / 2 + self.speed + (tilesize/2-1)) / tilesize)
+            ridaA = int((self.y + (tilesize/2-1)) / tilesize)
+            ridaY = int((self.y - (tilesize/2)) / tilesize)
+            tulpV = int((self.x + tilesize / 2 - (tilesize/2)) / tilesize)
 
-        if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
-            self.x += self.speed
-            self.orientation = "Right"
-            self.walk()
-        elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
-            self.x += self.speed
-            self.orientation = "Left"
-            self.walk()
-        else:
-            self.speed = -self.speed
+            if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
+                self.x += self.speed
+                self.orientation = "Right"
+                self.walk()
+            elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
+                self.x += self.speed
+                self.orientation = "Left"
+                self.walk()
+            else:
+                self.speed = -self.speed
 
-        self.gravity(mapnr, Maps, tilesize)
+            self.gravity(mapnr, Maps, tilesize)
 
-        self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
+            self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
 
-        if self.type == 0:
-            for b, bullet in enumerate(bullets):
-                if self.hitbox.colliderect(bullet.hitbox):
-                    if self.health > 0:
-                        self.health -= 1
-                    del bullets[b]
-            if self.health == 0:
-                self.type = 3
+            if self.type == 0:
+                for b, bullet in enumerate(bullets):
+                    if self.hitbox.colliderect(bullet.hitbox):
+                        if self.health > 0:
+                            self.health -= 1
+                        del bullets[b]
+                if self.health == 0 and self.alreadydead == False:
+                    self.type = 3
+                    self.alreadydead = True
 
-        if self.type == 1:
-            for b, bullet in enumerate(bullets):
-                if self.hitbox.colliderect(bullet.hitbox):
-                    del bullets[b]
+            if self.type == 1:
+                for b, bullet in enumerate(bullets):
+                    if self.hitbox.colliderect(bullet.hitbox):
+                        del bullets[b]
 
-        if self.type == 0:
-            self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+            if self.type == 0:
+                self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+        if self.alreadydead == True:
+            self.y -= 1
 
     def walk(self):
         self.counter += 1
