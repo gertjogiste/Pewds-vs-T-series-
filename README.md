@@ -1,9 +1,13 @@
 # Pewds-vs-T-series-
-Pewds will destroy T-series./n
+Pewds will destroy T-series.
 
 
-arrowkeys to muve and jump/n
-space - shooot/n
-friendly minions give subcriers/n
-enemy minions(indians) kill you :O/n
+arrowkeys to muve and jump
+
+space - shoot
+
+friendly minions give subcriers
+
+enemy minions(indians) kill you :O
+
 3 levels ;))
