@@ -24,6 +24,7 @@ class Player:
         self.orientation = "Right"
         self.image = self.stand
         self.counter = 0
+        self.eikuva = 0
 
         self.jumpcooldown = 0
         self.collidecooldown = 0
@@ -82,9 +83,13 @@ class Player:
         if self.jumpcooldown > 0:
             self.jumpcooldown -= 1
         if self.collidecooldown > 0:
+            self.vilgu()
             self.collidecooldown -= 1
         if self.shootcooldown > 0:
             self.shootcooldown -= 1
+        if self.collidecooldown == 0:
+            self.eikuva = 0
+
 
         self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
 
@@ -137,6 +142,11 @@ class Player:
                 self.health -= 1
                 self.collidecooldown = 100
 
+    def vilgu(self):
+        if self.collidecooldown % 4 and self.collidecooldown >= 0:
+            self.eikuva = 3
+        else:
+            self.eikuva = 0
 
     def render(self, screen):
         if self.health > 5:
@@ -152,7 +162,7 @@ class Player:
                          [self.tilesize, self.tilesize * 1.5], 3)
         pygame.draw.line(screen, [0, 0, 0], [self.tilesize, self.tilesize * 1.5], [self.tilesize, self.tilesize], 3)
 
-        if self.orientation == "Right":
+        if self.orientation == "Right" and not self.eikuva == 3:
             screen.blit(self.image, [400, self.y - (self.tilesize) - 16])
-        elif self.orientation == "Left":
+        elif self.orientation == "Left" and not self.eikuva == 3:
             screen.blit(pygame.transform.flip(self.image, True, False), [400, self.y - (self.tilesize) - 16])
