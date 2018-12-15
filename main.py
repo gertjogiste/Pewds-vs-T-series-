@@ -18,6 +18,7 @@ pygame.mixer_music.set_volume(0.5)
 pygame.mixer_music.play(-1)
 
 screen = pygame.display.set_mode(res)
+background = pygame.image.load("images/background0.png").convert()
 
 menu = Menu()
 
@@ -67,6 +68,7 @@ while True:
                 break
 
             screen.fill(sinine)
+            screen.blit(background, [0,0])
 
             Map.draw(screen, mapnr, tilesize, player)
 
