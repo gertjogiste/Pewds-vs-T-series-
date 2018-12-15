@@ -94,6 +94,9 @@ class Player:
             self.y += self.speedy
             self.onGround = False
             self.jumpcooldown = 15
+            jumpS = pygame.mixer.Sound("sounds/jump_2.ogg")
+            jumpS.set_volume(0.5)
+            jumpS.play()
 
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
