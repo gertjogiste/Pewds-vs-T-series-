@@ -114,6 +114,9 @@ class Player:
 
         if self.alreadydead == True:
             self.y += 0.5
+            if self.y > 670:
+                state = "MENU"
+                return state
 
     def jump(self):
         if self.onGround and self.jumpcooldown == 0:

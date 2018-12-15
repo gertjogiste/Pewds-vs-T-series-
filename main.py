@@ -14,9 +14,7 @@ res = [800, 640]
 Clock = pygame.time.Clock()
 pygame.init()
 
-pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
-pygame.mixer_music.set_volume(0.3)
-pygame.mixer_music.play(-1)
+
 
 pygame.font.init()
 
@@ -39,6 +37,9 @@ bullets = []
 while True:
     if state == "MENU":
         pygame.mixer.music.pause()
+        pygame.mixer.stop()
+        pygame.mixer.music.load("sounds/Menu_music.ogg")
+        pygame.mixer.music.play()
         while True:
             state = menu.main_loop(Clock, screen, state)
 
@@ -47,6 +48,14 @@ while True:
                 break
 
     if state == "GAME":
+        player = Player(200, 400, 4, tilesize, tilesize / 16 * 7, player.subs)
+        minions = []
+        bullets = []
+
+        pygame.mixer.music.stop()
+        pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
+        pygame.mixer_music.set_volume(0.3)
+        pygame.mixer_music.play(-1)
         Map = Maps(screen)
         while True:
             for event in pygame.event.get():
@@ -70,15 +79,13 @@ while True:
                 continue
 
             elif state == "MENU":
-                del player
-                player = Player(200, 400, 4, tilesize, tilesize/16*7, screen)
-
+                mapnr = 0
+                player.subs = 0
                 del minions
-                minions = []
-
-                bullets = []
+                del bullets
 
                 break
+
             textsurface = font.render("Subcriers: " + str(player.subs), True, valge)
             screen.fill(sinine)
             screen.blit(background, [0, 0])
@@ -87,13 +94,17 @@ while True:
             Map.draw(screen, mapnr, tilesize, player, minions)
 
             changelevel = player.update(mapnr, Map, minions, bullets)
+
             player.render(screen)
 
-            if changelevel:
+            if changelevel is True:
                 mapnr += 1
-                minions = []
-                bullets = []
-                player = Player(200, 400, 4, tilesize, tilesize / 16 * 7, player.subs)
+                break
+
+            elif changelevel == "MENU":
+                state = "MENU"
+                mapnr = 0
+                player.subs = 0
                 break
 
             for m,minioon in enumerate(minions):
