@@ -76,7 +76,7 @@ class Player:
         self.gravity(mapnr, Maps)
 
         self.hitbox = pygame.Rect(
-            [self.x - self.tilesize / 2, self.y - self.tilesize, self.tilesize, self.tilesize * 2])
+            [self.x - self.tilesize / 2, self.y - self.tilesize*2, self.tilesize, self.tilesize * 2])
 
         self.collision(enemies)
 
@@ -102,15 +102,16 @@ class Player:
             jumpS = pygame.mixer.Sound("sounds/jump_2.ogg")
             jumpS.set_volume(0.5)
             jumpS.play()
+
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
         tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
         ridaA = int((self.y + self.speedy + (self.tilesize/2)) / self.tilesize)
         ridaY = int((self.y + self.speedy - self.tilesize - (self.tilesize/2)) / self.tilesize)
 
-        if self.speedy < 0 and Maps.maps[mapnr][ridaY][tulpV] == 1 or Maps.maps[mapnr][ridaY][tulpP] == 1:
+        if self.speedy < 0 and Maps.maps[mapnr][ridaY][tulpV] > 0 or Maps.maps[mapnr][ridaY][tulpP] > 0:
             self.speedy = 0
-        elif Maps.maps[mapnr][ridaA][tulpV] == 1 or Maps.maps[mapnr][ridaA][tulpP] == 1:
+        if Maps.maps[mapnr][ridaA][tulpV] > 0 or Maps.maps[mapnr][ridaA][tulpP] > 0:
             self.onGround = True
         elif Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaA][tulpP] == 0:
             self.speedy += 1
