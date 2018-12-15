@@ -53,25 +53,26 @@ class Player:
                 ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
                 ridaYY = int((self.y - 1.5*self.tilesize) / self.tilesize)
 
-                if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0 and Maps.maps[mapnr][ridaYY][tulpP] == 0:
-                    self.x += self.speedx
-
                 if self.orientation == "Left":
                     self.orientation = "Right"
                     self.image = self.skid
                 self.walk()
+
+                if (Maps.maps[mapnr][ridaA][tulpP] == 0 or Maps.maps[mapnr][ridaA][tulpP] == 5) and (Maps.maps[mapnr][ridaY][tulpP] == 0 or Maps.maps[mapnr][ridaY][tulpP] == 5) and (Maps.maps[mapnr][ridaYY][tulpP] == 0 or Maps.maps[mapnr][ridaYY][tulpP] == 5):
+                    self.x += self.speedx
 
             elif key[pygame.K_LEFT]:
                 tulpV = int((self.x - self.speedx - (self.tilesize/2)) / self.tilesize)
                 ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
                 ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
                 ridaYY =int((self.y - 1.5*self.tilesize) / self.tilesize)
+
                 if self.orientation == "Right":
                     self.orientation = "Left"
                     self.image = self.skid
                 self.walk()
 
-                if Maps.maps[mapnr][ridaA][tulpV] == 0 or Maps.maps[mapnr][ridaA][tulpV] == 5 and Maps.maps[mapnr][ridaY][tulpV] == 0 or Maps.maps[mapnr][ridaY][tulpV] == 5 and Maps.maps[mapnr][ridaYY][tulpV] == 0 or Maps.maps[mapnr][ridaYY][tulpV] == 5:
+                if (Maps.maps[mapnr][ridaA][tulpV] == 0 or Maps.maps[mapnr][ridaA][tulpV] == 5) and (Maps.maps[mapnr][ridaY][tulpV] == 0 or Maps.maps[mapnr][ridaY][tulpV] == 5) and (Maps.maps[mapnr][ridaYY][tulpV] == 0 or Maps.maps[mapnr][ridaYY][tulpV] == 5):
                     self.x -= self.speedx
 
             if key[pygame.K_UP]:
@@ -132,11 +133,11 @@ class Player:
         ridaA = int((self.y + self.speedy + (self.tilesize/2)) / self.tilesize)
         ridaY = int((self.y + self.speedy - self.tilesize - (self.tilesize/2)) / self.tilesize)
 
-        if self.speedy < 0 and 3 > Maps.maps[mapnr][ridaY][tulpV] > 0 or 3 > Maps.maps[mapnr][ridaY][tulpP] > 0:
+        if self.speedy < 0 and (3 > Maps.maps[mapnr][ridaY][tulpV] > 0 or 3 > Maps.maps[mapnr][ridaY][tulpP] > 0):
             self.speedy = 0
         if 3 > Maps.maps[mapnr][ridaA][tulpV] > 0 or 3 > Maps.maps[mapnr][ridaA][tulpP] > 0:
             self.onGround = True
-        elif Maps.maps[mapnr][ridaA][tulpV] == 0 or Maps.maps[mapnr][ridaA][tulpV] == 5 and Maps.maps[mapnr][ridaA][tulpP] == 0 or Maps.maps[mapnr][ridaA][tulpP] == 5:
+        elif (Maps.maps[mapnr][ridaA][tulpV] == 0 or Maps.maps[mapnr][ridaA][tulpV] == 5) and (Maps.maps[mapnr][ridaA][tulpP] == 0 or Maps.maps[mapnr][ridaA][tulpP] == 5):
             self.speedy += 1
             self.y += self.speedy
             self.onGround = False
