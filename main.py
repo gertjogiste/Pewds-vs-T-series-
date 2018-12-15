@@ -27,9 +27,9 @@ menu = Menu()
 player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 
 mapnr = 0
-Map = Maps(screen)
+
 #type 1 - pewdsM type 0 - t-seriesM
-minions = [Minion(900, 40, 3, tilesize, 0), Minion(700, 50, 3, tilesize, 0), Minion(1400, 30, 3, tilesize, 1)]
+minions = []
 bullets = []
 
 while True:
@@ -43,6 +43,7 @@ while True:
                 break
 
     if state == "GAME":
+        Map = Maps(screen)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -68,7 +69,7 @@ while True:
                 player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 
                 del minions
-                minions = [Minion(900, 40, 3, tilesize, 0), Minion(700, 50, 3, tilesize, 0), Minion(1400, 30, 3, tilesize, 1)]
+                minions = []
 
                 bullets = []
 
@@ -77,7 +78,7 @@ while True:
             screen.fill(sinine)
             screen.blit(background, [0, 0])
 
-            Map.draw(screen, mapnr, tilesize, player)
+            Map.draw(screen, mapnr, tilesize, player, minions)
 
             player.update(mapnr, Map, minions, bullets)
             player.render(screen)
