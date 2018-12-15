@@ -140,6 +140,9 @@ class Player:
             if self.hitbox.colliderect(enemy.hitbox) and self.collidecooldown == 0 and self.health > 0:
                 self.health -= 1
                 self.collidecooldown = 100
+                ouch =pygame.mixer.Sound("sounds/ouch.wav")
+                ouch.play()
+
 
     def vilgu(self):
         if self.collidecooldown % 4 and self.collidecooldown >= 0:
