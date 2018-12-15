@@ -20,7 +20,7 @@ pygame.mixer_music.play(-1)
 screen = pygame.display.set_mode(res)
 background = pygame.image.load("images/background0.png").convert()
 pause_screen = pygame.image.load("images/pause_screen.png").convert_alpha()
-pause_screen.set_alpha(125)
+
 
 menu = Menu()
 
@@ -68,7 +68,7 @@ while True:
                 player = Player(640, 400, 4, tilesize, tilesize/16*7, screen)
 
                 del minions
-                minions = [Minion(900, 40, 3, tilesize), Minion(700, 50, 3, tilesize), Minion(1400, 30, 3, tilesize)]
+                minions = [Minion(900, 40, 3, tilesize, 0), Minion(700, 50, 3, tilesize, 0), Minion(1400, 30, 3, tilesize, 1)]
 
                 bullets = []
 
