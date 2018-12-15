@@ -28,9 +28,17 @@ class Minion:
             self.walk3 = pygame.image.load("images/boi walk3.png").convert_alpha()
             self.sit = pygame.image.load("images/boi sit.png").convert_alpha()
             self.image = self.sit
+            self.hearts = []
+
+            for i in range(3):
+                self.hearts.append(pygame.image.load("images/heart"+str(i+1)+".png").convert_alpha())
+
+            self.hearts.append(pygame.image.load("images/heart5.png").convert_alpha())
+            self.hearts.append(pygame.image.load("images/heart6.png").convert_alpha())
 
         self.counter = 0
         self.sitcounter = 0
+        self.heartcounter = 0
 
         self.orientation = "Right"
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
@@ -105,6 +113,9 @@ class Minion:
                 if self.sitcounter > self.counterlength:
                     self.sitcounter = 0
 
+                if self.collided and self.heartcounter < 30:
+                    self.heartcounter += 1
+
         if self.alreadydead == True:
             self.y -= 1
 
@@ -146,3 +157,7 @@ class Minion:
             screen.blit(self.image, [self.x - player.x + 416, self.y - tilesize/2])
         elif self.orientation == "Left":
             screen.blit(pygame.transform.flip(self.image, True, False), [self.x - player.x + 416, self.y - tilesize/2])
+
+        if self.type == 1 and self.collided and self.heartcounter < 30:
+            index = int(self.heartcounter/30*5)
+            screen.blit(self.hearts[index], [self.x - player.x + 416, self.y - tilesize/2])

@@ -13,6 +13,7 @@ class Player:
         self.walk2 = pygame.image.load("images/pewds_walk2.png").convert_alpha()
         self.walk3 = pygame.image.load("images/pewds_walk3.png").convert_alpha()
         self.jumping = pygame.image.load("images/pewds_jump.png").convert_alpha()
+        self.dead = pygame.image.load("images/pewds death.png").convert_alpha()
 
         self.speedx = speed
         self.speedy = 0
@@ -45,6 +46,7 @@ class Player:
     def update(self, mapnr, Maps, enemies, bullets):
         if self.alreadydead == False:
             key = pygame.key.get_pressed()
+
             if key[pygame.K_RIGHT]:
                 tulpP = int((self.x + self.speedx + (self.tilesize/2-1)) / self.tilesize)
                 ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
@@ -54,12 +56,11 @@ class Player:
                 if Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0 and Maps.maps[mapnr][ridaYY][tulpP] == 0:
                     self.x += self.speedx
 
-
-
                 if self.orientation == "Left":
                     self.orientation = "Right"
                     self.image = self.skid
                 self.walk()
+
             elif key[pygame.K_LEFT]:
                 tulpV = int((self.x - self.speedx - (self.tilesize/2)) / self.tilesize)
                 ridaA = int((self.y + (self.tilesize/2-1)) / self.tilesize)
@@ -76,7 +77,6 @@ class Player:
             if key[pygame.K_UP]:
                 self.jump()
                 self.image = self.jumping
-
 
             if key[pygame.K_SPACE]:
                 self.shoot(bullets)
@@ -101,14 +101,15 @@ class Player:
             if self.collidecooldown == 0:
                 self.eikuva = 0
 
-
             self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
 
             if self.health  == 0 and not self.alreadydead:
                 ded = pygame.mixer.Sound("sounds/pewds_dead.ogg")
                 ded.play()
                 pygame.mixer.music.pause()
+                self.image = self.dead
                 self.alreadydead = True
+
         if self.alreadydead == True:
             self.y += 0.5
 
@@ -119,7 +120,6 @@ class Player:
             self.onGround = False
             self.jumpcooldown = 15
             self.jumpS.play()
-
 
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
@@ -140,13 +140,13 @@ class Player:
 
     def walk(self):
         self.counter += 1
-        if self.counter > 29:
+        if self.counter > 15:
             self.counter = 0
-        if self.counter < 10:
+        if self.counter < 5:
             self.image = self.walk1
-        elif self.counter < 20:
+        elif self.counter < 10:
             self.image = self.walk2
-        elif self.counter < 30:
+        elif self.counter < 15:
             self.image = self.walk3
 
     def shoot(self, bullets):
@@ -197,4 +197,3 @@ class Player:
             screen.blit(self.image, [400, self.y - (self.tilesize) - 16])
         elif self.orientation == "Left" and not self.eikuva == 3:
             screen.blit(pygame.transform.flip(self.image, True, False), [400, self.y - (self.tilesize) - 16])
-
