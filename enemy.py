@@ -12,16 +12,25 @@ class Minion:
         self.ver_speed = 5
         self.type = type
         self.alreadydead = False
+        self.orientation = "Right"
 
-        self.image = pygame.image.load("images/indian_walk1.png").convert_alpha()
-        self.walk1 = pygame.image.load("images/indian_walk1.png").convert_alpha()
-        self.walk2 = pygame.image.load("images/indian_walk2.png").convert_alpha()
-        self.walk3 = pygame.image.load("images/indian_walk3.png").convert_alpha()
-        self.dead = pygame.image.load("images/indian_dead.png").convert_alpha()
+        if type == 0:
+            self.image = pygame.image.load("images/indian_walk1.png").convert_alpha()
+            self.walk1 = pygame.image.load("images/indian_walk1.png").convert_alpha()
+            self.walk2 = pygame.image.load("images/indian_walk2.png").convert_alpha()
+            self.walk3 = pygame.image.load("images/indian_walk3.png").convert_alpha()
+            self.dead = pygame.image.load("images/indian_dead.png").convert_alpha()
+        if type == 1:
+            self.walk1 = pygame.image.load("images/boi walk1.png").convert_alpha()
+            self.walk2 = pygame.image.load("images/boi walk2.png").convert_alpha()
+            self.walk3 = pygame.image.load("images/boi walk3.png").convert_alpha()
+            self.sit = pygame.image.load("images/boi sit.png").convert_alpha()
+            self.image = self.sit
+
         self.counter = 0
+        self.sitcounter = 0
 
-
-        self.orientation = "Rights"
+        self.orientation = "Right"
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
         if self.type == 0:
             self.health = life
@@ -36,16 +45,34 @@ class Minion:
             ridaY = int((self.y - (tilesize/2)) / tilesize)
             tulpV = int((self.x + tilesize / 2 - (tilesize/2)) / tilesize)
 
-            if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
-                self.x += self.speed
-                self.orientation = "Right"
-                self.walk()
-            elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
-                self.x += self.speed
-                self.orientation = "Left"
-                self.walk()
-            else:
-                self.speed = -self.speed
+            if self.type == 0:
+                if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
+                    self.x += self.speed
+                    self.orientation = "Right"
+                    self.walk()
+                elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
+                    self.x += self.speed
+                    self.orientation = "Left"
+                    self.walk()
+                else:
+                    self.speed = -self.speed
+
+            if self.type == 1 and self.sitcounter < 250:
+                if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
+                    self.x += self.speed
+                    self.orientation = "Right"
+                    self.walk()
+                    print(self.speed)
+                elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
+                    self.x += self.speed
+                    self.orientation = "Left"
+                    self.walk()
+                    print(self.speed, "a")
+                else:
+                    self.speed = -self.speed
+
+            elif self.sitcounter > 250:
+                self.image = self.sit
 
             self.gravity(mapnr, Maps, tilesize)
 
@@ -57,18 +84,25 @@ class Minion:
                         if self.health > 0:
                             self.health -= 1
                         del bullets[b]
+
                 if self.health == 0 and self.alreadydead == False:
                     self.type = 3
                     self.image = self.dead
                     self.alreadydead = True
+
+                self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
 
             if self.type == 1:
                 for b, bullet in enumerate(bullets):
                     if self.hitbox.colliderect(bullet.hitbox):
                         del bullets[b]
 
-            if self.type == 0:
-                self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+            if self.type == 1:
+                self.sitcounter += 1
+
+                if self.sitcounter > 500:
+                    self.sitcounter = 0
+
         if self.alreadydead == True:
             self.y -= 1
 
