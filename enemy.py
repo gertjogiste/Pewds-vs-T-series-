@@ -10,7 +10,14 @@ class Minion:
         self.size = 10
         self.speed = 3
         self.ver_speed = 5
-        self.image = pygame.image.load("images/indian_walk2.png")
+
+        self.image = pygame.image.load("images/indian_walk1.png")
+        self.walk1 = pygame.image.load("images/indian_walk1.png")
+        self.walk2 = pygame.image.load("images/indian_walk2.png")
+        self.walk3 = pygame.image.load("images/indian_walk3.png")
+        self.counter = 0
+
+
         self.orientation = "Rights"
         self.hitbox = pygame.Rect([self.x - tilesize / 2, self.y - tilesize, tilesize, tilesize])
         self.health = life
@@ -25,9 +32,11 @@ class Minion:
         if self.speed > 0 and Maps.maps[mapnr][ridaA][tulpP] == 0 and Maps.maps[mapnr][ridaY][tulpP] == 0:
             self.x += self.speed
             self.orientation = "Right"
+            self.walk()
         elif self.speed < 0 and Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaY][tulpV] == 0:
             self.x += self.speed
             self.orientation = "Left"
+            self.walk()
         else:
             self.speed = -self.speed
 
@@ -44,6 +53,17 @@ class Minion:
             """surma asjad siia"""
 
         self.lifebar = [self.x, self.y - 30, self.health * 10, 5]
+
+    def walk(self):
+        self.counter += 1
+        if self.counter > 29:
+            self.counter = 0
+        if self.counter < 10:
+            self.image = self.walk1
+        elif self.counter < 20:
+            self.image = self.walk2
+        elif self.counter < 30:
+            self.image = self.walk3
 
     def gravity(self, mapnr, Maps, tilesize):
         tulpP = int((self.x + (tilesize/2-1)) / tilesize)
