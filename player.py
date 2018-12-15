@@ -74,8 +74,10 @@ class Player:
                     self.x -= self.speedx
 
             if key[pygame.K_UP]:
+                self.jumpS.play()
                 self.jump()
                 self.image = self.jumping
+
 
             if key[pygame.K_SPACE]:
                 self.shoot(bullets)
@@ -117,7 +119,7 @@ class Player:
             self.y += self.speedy
             self.onGround = False
             self.jumpcooldown = 15
-            self.jumpS.play()
+
 
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
