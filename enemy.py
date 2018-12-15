@@ -53,7 +53,7 @@ class Minion:
                         self.health -= 1
                     del bullets[b]
             if self.health == 0:
-                """surma asjad siia"""
+                self.type = 3
 
         if self.type == 1:
             for b, bullet in enumerate(bullets):
