@@ -74,7 +74,6 @@ class Player:
                     self.x -= self.speedx
 
             if key[pygame.K_UP]:
-                self.jumpS.play()
                 self.jump()
                 self.image = self.jumping
 
@@ -119,6 +118,7 @@ class Player:
             self.y += self.speedy
             self.onGround = False
             self.jumpcooldown = 15
+            self.jumpS.play()
 
 
     def gravity(self, mapnr, Maps):
