@@ -32,10 +32,12 @@ bullets = []
 
 while True:
     if state == "MENU":
+        pygame.mixer.music.pause()
         while True:
             state = menu.main_loop(Clock, screen, state)
 
             if state == "GAME":
+                pygame.mixer.music.unpause()
                 break
 
     if state == "GAME":
@@ -48,11 +50,14 @@ while True:
                     state = "MENU"
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_p and state != "PAUSE":
                     state = "PAUSE"
+                    pygame.mixer.music.pause()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_p and state == "PAUSE":
                     state = "GAME"
-
+                    pygame.mixer.music.unpause()
             if state == "PAUSE":
+
                 screen.fill(must)
+
                 pygame.display.flip()
                 continue
 
