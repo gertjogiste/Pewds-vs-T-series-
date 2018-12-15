@@ -70,7 +70,7 @@ class Player:
         if key[pygame.K_SPACE]:
             self.shoot(bullets)
 
-        if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT]:
+        if not key[pygame.K_RIGHT] and  not key[pygame.K_LEFT] and not key[pygame.K_UP]:
             self.image = self.stand
 
         self.gravity(mapnr, Maps)
@@ -102,7 +102,6 @@ class Player:
             jumpS = pygame.mixer.Sound("sounds/jump_2.ogg")
             jumpS.set_volume(0.5)
             jumpS.play()
-
     def gravity(self, mapnr, Maps):
         tulpP = int((self.x + (self.tilesize/2-1)) / self.tilesize)
         tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
