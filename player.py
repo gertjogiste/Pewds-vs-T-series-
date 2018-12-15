@@ -109,9 +109,9 @@ class Player:
         ridaA = int((self.y + self.speedy + (self.tilesize/2)) / self.tilesize)
         ridaY = int((self.y + self.speedy - self.tilesize - (self.tilesize/2)) / self.tilesize)
 
-        if self.speedy < 0 and Maps.maps[mapnr][ridaY][tulpV] > 0 or Maps.maps[mapnr][ridaY][tulpP] > 0:
+        if self.speedy < 0 and 3 > Maps.maps[mapnr][ridaY][tulpV] > 0 or 3 > Maps.maps[mapnr][ridaY][tulpP] > 0:
             self.speedy = 0
-        if Maps.maps[mapnr][ridaA][tulpV] > 0 or Maps.maps[mapnr][ridaA][tulpP] > 0:
+        if 3 > Maps.maps[mapnr][ridaA][tulpV] > 0 or 3 > Maps.maps[mapnr][ridaA][tulpP] > 0:
             self.onGround = True
         elif Maps.maps[mapnr][ridaA][tulpV] == 0 and Maps.maps[mapnr][ridaA][tulpP] == 0:
             self.speedy += 1
