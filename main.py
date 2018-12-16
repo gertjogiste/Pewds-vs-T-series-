@@ -56,6 +56,7 @@ while True:
 
         pygame.mixer.music.stop()
         if mapnr == 0:
+            background = background1
             pygame.mixer.music.load("sounds/Intro(Hej Monika).ogg")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1)
