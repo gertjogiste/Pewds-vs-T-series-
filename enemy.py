@@ -11,7 +11,7 @@ class Minion:
         self.speed = 3
         self.ver_speed = 5
         self.onGround = True
-        self.type = type
+        self.type = type  # type 1 - pewdsM type 0 - t-seriesM
         self.alreadydead = False
         self.orientation = "Right"
         self.counterlength = 500

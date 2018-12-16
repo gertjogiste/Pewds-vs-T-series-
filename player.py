@@ -43,7 +43,7 @@ class Player:
         self.tulpV = int((self.x - (self.tilesize/2)) / self.tilesize)
         self.ridaY = int((self.y - (self.tilesize/2)) / self.tilesize)
 
-    def update(self, mapnr, Maps, enemies, bullets):
+    def update(self, mapnr, Maps, enemies, bullets, t_bullets):
         if self.alreadydead == False:
             key = pygame.key.get_pressed()
 
@@ -101,6 +101,12 @@ class Player:
                 self.shootcooldown -= 1
             if self.collidecooldown == 0:
                 self.eikuva = 0
+
+            for b, t_bullet in enumerate(t_bullets):
+                if self.x - self.tilesize / 2 < t_bullet.center[0] < self.x + self.tilesize / 2 \
+                        and self.y - self.tilesize < t_bullet.center[1] < self.y + self.tilesize:
+                    del t_bullets[b]
+                    self.health -= 2
 
             self.lifebar = [self.tilesize, self.tilesize, self.health * self.tilesize / 4, self.tilesize / 2]
 

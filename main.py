@@ -3,36 +3,32 @@ from player import *
 from enemy import *
 from map import *
 from menu import Menu
+from settings import *
+from tseries import TSeries
 
 state = "MENU"  # MENU or GAME
 
-tilesize = 32
-must = [0, 0, 0]
-sinine = (66, 134, 244)
-valge = (255, 255, 255)
-res = [800, 640]
-Clock = pygame.time.Clock()
 pygame.init()
-
-
-
 pygame.font.init()
 
+Clock = pygame.time.Clock()
 screen = pygame.display.set_mode(res)
+
 background = pygame.image.load("images/background0.png").convert()
 pause_screen = pygame.image.load("images/pause_screen.png").convert_alpha()
-font = pygame.font.SysFont("Comic Sans MS", 30)
 
+font = pygame.font.SysFont("Comic Sans MS", 30)
 
 menu = Menu()
 
 player = Player(200, 400, 4, tilesize, tilesize/16*7)
+tseries = TSeries(300, 300, 2, 10)
 
 mapnr = 0
 
-#type 1 - pewdsM type 0 - t-seriesM
 minions = []
 bullets = []
+t_bullets = []
 
 while True:
     if state == "MENU":
@@ -51,6 +47,7 @@ while True:
         player = Player(200, 400, 4, tilesize, tilesize / 16 * 7, player.subs)
         minions = []
         bullets = []
+        t_bullets = []
 
         pygame.mixer.music.stop()
         pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
@@ -93,11 +90,16 @@ while True:
 
             Map.draw(screen, mapnr, tilesize, player, minions)
 
-            changelevel = player.update(mapnr, Map, minions, bullets)
+            changelevel = player.update(mapnr, Map, minions, bullets, t_bullets)
 
             player.render(screen)
 
+            if mapnr == 2:
+                tseries.update(Map, t_bullets, player)
+                tseries.render(screen, player)
+
             if changelevel is True:
+                pygame.mixer.music.load("sounds/Story(Hej Monika).ogg")
                 mapnr += 1
                 break
 
@@ -107,7 +109,7 @@ while True:
                 player.subs = 0
                 break
 
-            for m,minioon in enumerate(minions):
+            for m, minioon in enumerate(minions):
                 minioon.update(mapnr, Map, tilesize, bullets)
                 minioon.render(screen, player, tilesize)
                 if minioon.y < 0:
@@ -116,8 +118,15 @@ while True:
             for b, bullet in enumerate(bullets):
                 bullet.drawBullet(screen, player)
                 delete = bullet.bulletUpdate(Map, mapnr)
-                if delete == True:
+                if delete is True:
                     del bullets[b]
+                    continue
+
+            for b, bullet in enumerate(t_bullets):
+                bullet.drawBullet(screen, player)
+                delete = bullet.bulletUpdate(Map, mapnr, player)
+                if delete is True:
+                    del t_bullets[b]
                     continue
 
             pygame.display.flip()
