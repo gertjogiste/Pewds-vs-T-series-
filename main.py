@@ -50,9 +50,17 @@ while True:
         t_bullets = []
 
         pygame.mixer.music.stop()
-        pygame.mixer_music.load("sounds/Intro(Hej Monika).ogg")
-        pygame.mixer_music.set_volume(0.3)
-        pygame.mixer_music.play(-1)
+        if mapnr == 0:
+            pygame.mixer.music.load("sounds/Intro(Hej Monika).ogg")
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
+        if mapnr == 1:
+            pygame.mixer.music.load("sounds/Story(Hej Monika).ogg")
+            pygame.mixer.music.play(-1)
+        elif mapnr == 2:
+            pygame.mixer.music.load("sounds/Final Boss(Bitch Lasagna).ogg")
+            pygame.mixer.music.play(-1)
+
         Map = Maps(screen)
         while True:
             for event in pygame.event.get():
@@ -99,7 +107,6 @@ while True:
                 tseries.render(screen, player)
 
             if changelevel is True:
-                pygame.mixer.music.load("sounds/Story(Hej Monika).ogg")
                 mapnr += 1
                 break
 
