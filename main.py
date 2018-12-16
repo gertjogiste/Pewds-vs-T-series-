@@ -17,7 +17,7 @@ screen = pygame.display.set_mode(res)
 
 background1 = pygame.image.load("images/background0.png").convert()
 background2 = pygame.image.load("images/background1.png").convert()
-background3 = pygame.image.load("images/background2.png").convert()
+background3 = pygame.image.load("images/background3.png").convert()
 background = background1
 
 pause_screen = pygame.image.load("images/pause_screen.png").convert_alpha()
@@ -60,9 +60,11 @@ while True:
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1)
         if mapnr == 1:
+            background = background2
             pygame.mixer.music.load("sounds/Story(Hej Monika).ogg")
             pygame.mixer.music.play(-1)
         elif mapnr == 2:
+            background = background3
             pygame.mixer.music.load("sounds/Final Boss(Bitch Lasagna).ogg")
             pygame.mixer.music.play(-1)
 
