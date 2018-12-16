@@ -111,7 +111,7 @@ while True:
             player.render(screen)
 
             if mapnr == 2:
-                tseries.update(Map, t_bullets, player, bullets)
+                tseriesdead = tseries.update(Map, t_bullets, player, bullets)
                 tseries.render(screen, player)
 
             if changelevel is True:

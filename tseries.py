@@ -15,7 +15,10 @@ class TSeries:
         self.life = life
         self.image = pygame.image.load("images/t-series boss1.png")
         self.health = 10
+        self.lifebar = [self.x + 50, self.y - 20, self.health * 10, 10]
         self.damage = 1
+        self.headhitbox = pygame.Rect([self.x + 65, self.y + 12, 47, 72])
+        self.bodyhitbox = pygame.Rect([self.x + 17, self.y + 84, 139, 146])
 
         self.normal1 = pygame.image.load("images/t-series boss1.png")
         self.normal1 = pygame.image.load("images/t-series boss2.png")
@@ -47,9 +50,13 @@ class TSeries:
         else:
             self.shootcooldown = 100
 
+        self.headhitbox = pygame.Rect([self.x + 65, self.y + 12, 47, 72])
+        self.bodyhitbox = pygame.Rect([self.x + 17, self.y + 84, 139, 146])
+        self.lifebar = [self.x + 50 - player.x + 416, self.y - 20, self.health * 10, 10]
+
         for b, bullet in enumerate(bullets):
-            if self.x - self.tilesize / 2 < bullet.center[0] < self.x + self.tilesize / 2 \
-                    and self.y - self.tilesize < bullet.center[1] < self.y + self.tilesize:
+            if self.headhitbox.collidepoint(bullet.center[0], bullet.center[1]) \
+                    or self.bodyhitbox.collidepoint(bullet.center[0], bullet.center[1]):
                 del bullets[b]
                 if self.health > 0:
                     if player.subs >= 5:
@@ -64,7 +71,14 @@ class TSeries:
                         self.health -= self.damage
 
         if self.health <= 0:
-            print(self.health)
+            return True
+        else:
+            return False
 
     def render(self, screen, player):
         screen.blit(self.image, [self.x - player.x + 416, self.y])
+
+        if self.health > 5:
+            pygame.draw.rect(screen, [50*(10-self.health), 255, 0], self.lifebar)
+        elif self.health > 0:
+            pygame.draw.rect(screen, [255, 50*self.health, 0], self.lifebar)
