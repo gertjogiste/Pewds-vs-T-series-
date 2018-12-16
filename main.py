@@ -14,12 +14,7 @@ pygame.font.init()
 Clock = pygame.time.Clock()
 screen = pygame.display.set_mode(res)
 
-
-background1 = pygame.image.load("images/background0.png").convert()
-background2 = pygame.image.load("images/background1.png").convert()
-background3 = pygame.image.load("images/background2.png").convert()
-background = background1
-
+background = pygame.image.load("images/background0.png").convert()
 pause_screen = pygame.image.load("images/pause_screen.png").convert_alpha()
 
 font = pygame.font.SysFont("Comic Sans MS", 30)
@@ -98,7 +93,7 @@ while True:
 
             textsurface = font.render("Subcriers: " + str(player.subs), True, valge)
             screen.fill(sinine)
-            screen.blit(background, [(-player.x - 416) / 2, 0])
+            screen.blit(background, [0, 0])
             screen.blit(textsurface, [550, 32])
 
             Map.draw(screen, mapnr, tilesize, player, minions)
@@ -108,7 +103,7 @@ while True:
             player.render(screen)
 
             if mapnr == 2:
-                tseries.update(Map, t_bullets, player, bullets)
+                tseries.update(Map, t_bullets, player)
                 tseries.render(screen, player)
 
             if changelevel is True:
