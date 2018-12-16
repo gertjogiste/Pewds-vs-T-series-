@@ -27,7 +27,6 @@ font = pygame.font.SysFont("Comic Sans MS", 30)
 menu = Menu()
 
 player = Player(200, 400, 4, tilesize, tilesize/16*7)
-tseries = TSeries(300, 300, 2, 10)
 
 mapnr = 0
 
@@ -68,6 +67,9 @@ while True:
             background = background3
             pygame.mixer.music.load("sounds/Final Boss(Bitch Lasagna).ogg")
             pygame.mixer.music.play(-1)
+
+            tseries = TSeries(300, 300, 2, 10)
+            tseriesdead = False
 
         Map = Maps(screen)
         while True:
@@ -111,8 +113,9 @@ while True:
             player.render(screen)
 
             if mapnr == 2:
-                tseriesdead = tseries.update(Map, t_bullets, player, bullets)
-                tseries.render(screen, player)
+                if not tseriesdead:
+                    tseriesdead = tseries.update(Map, t_bullets, player, bullets)
+                    tseries.render(screen, player)
 
             if changelevel is True:
                 mapnr += 1

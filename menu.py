@@ -16,6 +16,7 @@ class Menu:
         self.punane_kast = (550, 550, 100, 50)
         self.rohelisetoon = roheline
         self.punasetoon = punane
+        self.menugame_pic = pygame.image.load("images/pewds_stand.png")
         self.play_pic = pygame.image.load("images/PLAY_BUTTON.png")
         self.quit_pic = pygame.image.load("images/QUIT_BUTTON.png")
         self.menu_pic = pygame.image.load("images/MAIN-PIC.png")
@@ -51,6 +52,7 @@ class Menu:
         screen.blit(self.play_pic, [150, 550])
         screen.blit(self.quit_pic, [550, 550])
         screen.blit(self.menu_pic, [25, 200])
+        screen.blit(self.menugame_pic, [300, 300])
     def main_loop(self, clock, screen, state):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
