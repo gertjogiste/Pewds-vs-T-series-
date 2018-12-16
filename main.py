@@ -29,6 +29,7 @@ menu = Menu()
 player = Player(200, 400, 4, tilesize, tilesize/16*7)
 
 mapnr = 0
+tseriesdead = False
 
 minions = []
 bullets = []
@@ -63,7 +64,7 @@ while True:
             background = background2
             pygame.mixer.music.load("sounds/Story(Hej Monika).ogg")
             pygame.mixer.music.play(-1)
-        elif mapnr == 2:
+        elif mapnr == 2 and not tseriesdead:
             background = background3
             pygame.mixer.music.load("sounds/Final Boss(Bitch Lasagna).ogg")
             pygame.mixer.music.play(-1)

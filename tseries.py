@@ -93,6 +93,8 @@ class TSeries:
             if self.explosion_counter < 63:
                 self.explosion_counter += 1
             else:
+                pygame.mixer.music.stop()
+                pygame.mixer.Sound("sounds/game_clear.ogg").play()
                 return True
 
     def render(self, screen, player):
